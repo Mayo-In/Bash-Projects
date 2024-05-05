@@ -1,38 +1,28 @@
-#!/usr/bin/env bash 
+#!/bin/bash
+# Written by Mayuri
+# Helps to list and sort the files in repository as per the requirememnt 
 
-# Written By Woland
+read -p "Enter the directory path : " path
 
-# Simple Alarm clock script
+echo
+echo "1. Only list all the files in directory."
+echo "2. List and sort the files in directory."
+echo "3. sort in Ascending order."
+echo "4. sort in Descending order."
+echo
+read -p "Select the listing type : " choice
 
-#Dependency:
-#          mpv
-#          figlet 
-#          sleep
+case $choice in
 
-# https://github.com/wolandark
-# https://github.com/wolandark/BASH_Scripts_For_Everyone
-
-if [[ -z $1 ]]; then
-	echo -e "\n\t Usage: ./Alarm.sh 8h for 8 hours of sleep"
-	echo -e "\t\t./Alarm.sh 20m for 20 minutes of sleep"
-	echo -e "\t\t See man sleep\n"
-	exit 0
-fi
-
-sleep "$1";
-figlet "sleep time over"
-
-alarm=(
-	"alarm1.mp3"
-	"alarm2.mp3"
-	"alarm3.mp3"
-	"alarm4.mp3"
-	"alarm5.mp3"
-)
-
-for ((i=0; i<${#alarm[@]}; i++)); do
-  figlet -f slant "Wake Up-$((i+1))"
-  sleep 1; mpv --no-audio-display --no-resume-playback "${alarm[i]}" &
-  sleep 45; killall mpv
-  sleep 5m;
-done
+1 ) echo "You have selected only listing of the files."
+     ls $path;;
+2 ) echo "You have selected listing and sorting of the files."
+     ls $path | sort;;
+3 ) echo "You have selected listing and Ascending sorting of the files."
+    ls -la $path>result.txt 
+    awk '{print $5 $9}' result.txt | sort -n ;;
+4 ) echo "You have selected listing and Dscending sorting of the files."
+    ls -la $path>result.txt 
+    awk '{print $5 $9}' result.txt | sort -rn ;; 
+*) echo "Please enter correct choice.";;
+esac
